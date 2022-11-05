@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        background-color: rgb(80, 80, 117);
+        
+        padding: 0;
+        margin: 0;
+    }
+    #movie{
+        width: 90%;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        gap: 20px;
+        }
+        #movie>div{
+        padding: 10px;
+        text-align: center;
+        background-color: rgb(43, 43, 113);
+        color: white;
+        border-radius: 10px;
+        }
+    #movie>div>div{
+        display: flex;
+        border-radius: 10px;
+        overflow: hidden;
+        width: 100%;
+        height:200px;
+        justify-content: center;
+        align-items: center;
+    }
+    #movie>div>div>img{
+        width: 100%;
+        height: 100%;
+    }
+    #search{
+        text-align: center;
+        padding: 20px;
+        background-color: rgb(43, 43, 113);
+        margin-bottom: 30px;
+    }
+    b{
+        margin-right:10px;
+        color: white;
+        font-size: 25px;
+    }
+    input{
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        font-size: 18px;
+        width: 200px;
+    }
+    @media all and (max-width:1100px) and (min-width:889px){
+        #movie{
+        
+        grid-template-columns: repeat(3,1fr);
+        }
+        #movie>div>div{
+        height:300px;
+    }
+    }
+    @media all and (max-width:888px) and (min-width:600px){
+        #movie{
+        
+        grid-template-columns: repeat(2,1fr);
+        }
+        #movie>div>div{
+        height:300px;
+    }
+    }
+    @media all and (max-width:599px) and (min-width:100px){
+        #movie{
+        
+        grid-template-columns: repeat(1,1fr);
+        }
+        #movie>div>div{
+        height:300px;
+    }
+    }
+</style>
+<body>
+
+    <div id="search">
+        <b>Search Movie Here</b>
+        <input type="text" oninput="search()">
+    </div>
+    <div id="movie">
+        <!-- all movies appended here -->
+    </div>
+    
+</body>
+<script>
+    let moviecon=document.querySelector("#movie")
+    function search(){
+        let val=document.querySelector("input").value
+        let url=`http://www.omdbapi.com/?s=${val}&page=1&apikey=2031eed0`
+   
+    async function call(){
+        let f=await fetch(url);
+         let data=await f.json();
+         data=data.Search
+         if(data==undefined){
+            console.log("no data")
+         }
+         else{
+            
+            display(data);
+         }
+    }
+    call();
+    
+
+    }
+
+    function display(data){
+        moviecon.innerHTML=""
+        data.forEach(element => {
+            let divm=document.createElement("div");
+            let divimg=document.createElement("div");
+                divimg.style="background-color: rgb(96, 96, 119)";
+                let img;
+                if(element.Poster=="N/A"){
+                    img=document.createElement("h2");
+                    img.innerText="No Image"
+                }
+                else{
+                     img=document.createElement("img");
+                    img.setAttribute("src",element.Poster);
+                }
+                
+                
+            let title=document.createElement("h2")
+            title.innerText=element.Title;
+            let year=document.createElement("h3")
+            year.innerText="Year: "+element.Year;
+            let type=document.createElement("h3")
+            type.innerText="Type: "+element.Type;
+            divimg.append(img);
+            divm.append(divimg,title,year,type);
+            divm.style="border:1px solid white"
+            moviecon.append(divm)
+        });
+        // <div>
+        //         <img src="" alt="no image">
+        //     </div>
+        //     <h2>Titile: </h2>
+        //     <h3>year</h3>
+        //     <h3>type</h3>
+    }
+    
+</script>
+</html>
