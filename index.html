@@ -105,7 +105,7 @@
     let key2="1290829e"
     function search(){
         let val=document.querySelector("input").value
-        let url=`https://www.omdbapi.com/?s=${val}&page=1&apikey=${key2}`
+        let url=`https://www.omdbapi.com/?s=${val}&page=1&apikey=${key1}`
    
     async function call(){
         try{
@@ -164,7 +164,7 @@
 
             btn.addEventListener("click",()=>{
                 let id=element.imdbID;
-                let spec_url=`https://www.omdbapi.com/?i=${id}&page=1&apikey=${key2}`;
+                let spec_url=`https://www.omdbapi.com/?i=${id}&page=1&apikey=${key1}`;
                 async function idcall(){
                     let fe= await fetch(spec_url);
                     let ress=await fe.json();
