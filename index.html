@@ -74,6 +74,7 @@
         }
         #movie>div>div{
         height:300px;
+        
     }
     }
     @media all and (max-width:599px) and (min-width:100px){
@@ -96,24 +97,35 @@
         <!-- all movies appended here -->
     </div>
     
+    
 </body>
 <script>
-    let moviecon=document.querySelector("#movie")
+    let moviecon=document.querySelector("#movie");
+    let key1="2031eed0";
+    let key2="1290829e"
     function search(){
         let val=document.querySelector("input").value
-        let url=`https://www.omdbapi.com/?s=${val}&page=1&apikey=2031eed0`
+        let url=`https://www.omdbapi.com/?s=${val}&page=1&apikey=${key2}`
    
     async function call(){
-        let f=await fetch(url);
+        try{
+            let f=await fetch(url);
          let data=await f.json();
          data=data.Search
-         if(data==undefined){
-            console.log("no data")
-         }
-         else{
-            
             display(data);
-         }
+    
+        }
+        catch(error){
+           
+            moviecon.innerHTML="";
+            let a=document.createElement("img")
+            a.setAttribute("src","https://2.bp.blogspot.com/-X9sVvOD0hrs/W5cz8WKyknI/AAAAAAAAEKI/s6mNIUQdsy4KGnCgtF1VSZlnj237ArxawCLcBGAs/s1600/not%2Bfound.gif");
+            a.style="width:100%;"
+            moviecon.append(a)
+            
+         
+        }
+        
     }
     call();
     
@@ -143,9 +155,28 @@
             year.innerText="Year: "+element.Year;
             let type=document.createElement("h3")
             type.innerText="Type: "+element.Type;
+            let btn=document.createElement("a");
+            btn.innerHTML="See More"
+           
             divimg.append(img);
-            divm.append(divimg,title,year,type);
-            divm.style="border:1px solid white"
+            divm.append(divimg,title,year,type,btn);
+            divm.style="border:1px solid white";
+
+            btn.addEventListener("click",()=>{
+                let id=element.imdbID;
+                let spec_url=`https://www.omdbapi.com/?i=${id}&page=1&apikey=${key2}`;
+                async function idcall(){
+                    let fe= await fetch(spec_url);
+                    let ress=await fe.json();
+                    localStorage.setItem("data",JSON.stringify(ress))
+                    console.log(ress);
+                    btn.setAttribute("href","detail.html");
+                    btn.innerHTML="Click Again"
+                    btn.style="color:white;text-decoration:none"
+                }
+                idcall();
+                
+            })
             moviecon.append(divm)
         });
         // <div>

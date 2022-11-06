@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail</title>
+</head>
+<style>
+    body{
+        background-color: rgb(80, 80, 117);
+    }
+    #moviecont{
+        background-color: rgb(43, 43, 113);
+        margin:30px auto;
+        text-align: center;
+        padding: 20px 0;
+        border-radius: 10px;
+        border: 2px solid gray;
+        color: white;
+        width: 90%;
+    }
+    h2{
+        color: gold;
+        text-align: center;
+    }
+    #moviecont>div:nth-child(2){
+        width: 500px;
+        margin: auto;
+        text-align: left;
+    }
+    #moviecont>div:nth-child(1){
+        width: 300px;
+        background-color: rgb(203, 203, 203);
+        border-radius: 10px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 450px;
+        border: 2px solid white;
+        margin: auto;
+        margin-top: 20px;
+    }
+    #moviecont>div:nth-child(1)>img{
+        width: 100%;
+        height: 100%;
+       
+    }
+    span{
+        color: gold;
+    }
+    #rec{
+        color: greenyellow;
+    }
+    @media screen and (max-width:545px) and (min-width:385px) {
+        #moviecont>div:nth-child(2){
+        width: 300px;
+    }}
+    @media screen and (max-width:384px) and (min-width:100px) {
+        #moviecont>div:nth-child(2){
+        width: 200px;
+    }
+    #moviecont>div:nth-child(1){
+        width: 200px;
+        
+        height: 350px;
+        
+    }
+    }
+</style>
+<body>
+    <div id="moviecont">
+            
+    </div>
+    
+</body>
+<script>
+let data=JSON.parse(localStorage.getItem("data"))
+let container=document.querySelector("#moviecont")
+let divimg=document.createElement("div");
+let img;
+if(data.Poster=="N/A"){
+    img=document.createElement("h2");
+    img.innerHTML="No Image";
+
+}
+else{
+    img=document.createElement("img");
+    img.setAttribute("src",data.Poster);
+}
+divimg.append(img);
+let divdetail=document.createElement("div");
+let Title=document.createElement("h2")
+Title.innerText=data.Title;
+let imdb=document.createElement("p")
+if(data.imdbRating>8.5){
+    imdb.innerHTML=`<span>Rating: </span>${data.imdbRating}<span id="rec">(Recommended)</span>`;
+}
+else{
+    imdb.innerHTML=`<span>Rating: </span>${data.imdbRating}`;
+}
+
+let plot=document.createElement("p")
+plot.innerHTML=`<span>Plot: </span>${data.Plot}`;
+let year=document.createElement("p")
+year.innerHTML=`<span>Year: </span>${data.Year}`;
+let actors=document.createElement("p")
+actors.innerHTML=`<span>Actors: </span>${data.Actors}`;
+let awards=document.createElement("p")
+awards.innerHTML=`<span>Awards: </span>${data.Awards}`;
+let boxoffice=document.createElement("p")
+boxoffice.innerHTML=`<span>Box-Office: </span>${data.BoxOffice}`;
+let country=document.createElement("p")
+country.innerHTML=`<span>Country: </span>${data.Country}`;
+let Language=document.createElement("p")
+Language.innerHTML=`<span>Language: </span>${data.Language}`;
+divdetail.append(Title,imdb,plot,year,actors,awards,boxoffice,country,Language);
+container.append(divimg,divdetail)
+//          <div>
+//                 Poster
+//          </div>
+//           <div>
+//                 Title
+//                 imdbRating
+//                 Plot
+//                 Actors
+//                 Awards
+//                 BoxOffice
+//                 Country
+//                 Language
+//           </div>
+</script>
+</html>
